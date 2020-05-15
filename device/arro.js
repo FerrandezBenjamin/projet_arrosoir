@@ -31,33 +31,29 @@ jardinClean(meteo);
 
 // ---- function principal arrosage du jardin ----//
 
-function jardinClean(meteo) {
+function jardinClean() {
   if (meteo) {
     // Si il pleut, pas besoin d'arroser
     console.log("Il pleut, pas besoin d'arroser");
     client.publish("campusnum/jardin/arro", 0);
-  } else if (!meteo) {
-    // Si il pleut pas, prend en compte les données du capteur, puis arrose en conséquence
-    if (donneesCapt >= 30) {
-      arrosage(meteo);
-      console.log(caArrose);
-    }
-  } else {
-    setInterval(() => {
-      jardinClean();
-    }, 10000); // Redémarre en boucle la fonction principal;
+  } else if (donneesCapt <= 30) {
+    client.publish("campusnum/jardin/arro", 1);
+    console.log(caArrose);
   }
+  // Si il pleut pas, prend en compte les données du capteur, puis arrose en conséquence
 }
 
 // ---- function arrosage du jardin ----//
-function arrosage(meteo) {
-  if (meteo) {
-    // Arrête la function si il se met à pleuvoir
-    console.log("STOP IL CE MET A PLEUVOIR");
-    client.publish("campusnum/jardin/arro", 0);
-  } else if (!meteo) {
-    // Il pleut pas, ça arrose
-    console.log("Doucement, ça arrose");
-    client.publish("campusnum/jardin/arro", 1);
-  }
-}
+
+//------- Je crois que j'en n'ai pas besoin -------//
+// function arrosage(meteo) {
+//   if (meteo) {
+//     // Arrête la function si il se met à pleuvoir
+//     console.log("STOP IL CE MET A PLEUVOIR");
+//     client.publish("campusnum/jardin/arro", 0);
+//   } else if (!meteo) {
+//     // Il pleut pas, ça arrose
+//     console.log("Doucement, ça arrose");
+//     client.publish("campusnum/jardin/arro", 1);
+//   }
+// }
